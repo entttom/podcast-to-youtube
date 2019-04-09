@@ -31,7 +31,7 @@ class PodcastUploader
 		end
 	end
 
-	def upload(podcast_feed_url, video_category_id, privacy = :private)
+	def upload(podcast_feed_url, video_category_id, privacy = :public)
 		feed = parse_feed podcast_feed_url
 		feed.entries.reverse_each do |entry|
 			video_title = "#{feed.title} - #{entry.title}"
@@ -56,7 +56,7 @@ class PodcastUploader
 		end
 	end
 
-	private
+	public
 
 		def refresh_authentication
 			if @account.authentication.expired?
