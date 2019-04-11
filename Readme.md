@@ -78,7 +78,7 @@ Think about your upload limit! Videos with more than 15 minutes can only be uplo
 
 run the script (example)
 ```
-podcast-to-youtube upload -f "http://podcast.funkenstrahlen.de/feed/m4a" -s client_secret.json -c 28
+podcast-to-youtube upload -f "http://www.kofferkinder.com/podcast/mp3" -s client_secret.json -c 19
 ```
 
 Usage:
