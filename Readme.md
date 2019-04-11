@@ -8,25 +8,28 @@ All uploaded videos are private by default, so you can review them before publis
 
 ffmpeg is required to create the video files
 ```
-apt-get install ffmpeg
+sudo apt-get install ffmpeg
 ```
 
 Current ubuntu versions only have avconv in their ppa's. You can install ffmpeg by adding this ppa:
 
 ```
-add-apt-repository ppa:mc3man/trusty-media
-apt-get update
-apt-get install ffmpeg
+sudo add-apt-repository ppa:mc3man/trusty-media
+sudo apt-get update
+sudo apt-get install ffmpeg
 ```
 
 ruby is required to run the script
 ```
+sudo apt-add-repository ppa:brightbox/ruby-ng
+sudo apt-get update
+sudo apt-get install ruby2.3 ruby2.3-dev
 apt-get install ruby ruby-dev zlib1g-dev
 ```
 
 Install the gem from [Rubygems.org](https://rubygems.org/gems/podcast-to-youtube).
 ```
-gem install podcast-to-youtube
+sudo gem install podcast-to-youtube
 ```
 
 Go to [Google Developer Console](https://console.developers.google.com/) and login to create API credentials.
