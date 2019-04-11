@@ -24,7 +24,7 @@ ruby is required to run the script
 sudo apt-add-repository ppa:brightbox/ruby-ng
 sudo apt-get update
 sudo apt-get install ruby2.3 ruby2.3-dev
-apt-get install ruby ruby-dev zlib1g-dev
+sudo apt-get install ruby ruby-dev zlib1g-dev
 ```
 
 Install the gem from [Rubygems.org](https://rubygems.org/gems/podcast-to-youtube).
