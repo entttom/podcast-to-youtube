@@ -31,7 +31,14 @@ Install the gem from [Rubygems.org](https://rubygems.org/gems/podcast-to-youtube
 ```
 sudo gem install podcast-to-youtube
 ```
+Install new Version with automatic public publishing
 
+```
+git clone https://github.com/entttom/podcast-to-youtube/
+cd podcast-to-youtube
+make
+sudo gem install podcast-to-youtube-0.3.5.gem
+```
 Go to [Google Developer Console](https://console.developers.google.com/) and login to create API credentials.
 
 Go to the API section
