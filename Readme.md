@@ -27,6 +27,12 @@ sudo apt-get install ruby2.3 ruby2.3-dev
 sudo apt-get install ruby ruby-dev zlib1g-dev
 ```
 
+For Ubuntu (tried on WSL Ubuntu Windows)
+```
+sudo apt-get install build-essential patch
+```
+
+
 Install the gem from [Rubygems.org](https://rubygems.org/gems/podcast-to-youtube).
 ```
 sudo gem install podcast-to-youtube
