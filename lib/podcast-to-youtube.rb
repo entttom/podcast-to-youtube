@@ -120,7 +120,7 @@ class PodcastUploader
 
 		def parse_feed(podcast_feed_url)
 			puts "parsing feed"
-			return Feedjira::Feed.fetch_and_parse podcast_feed_url
+			return Feedjira::Feed.fetch_and_parse podcast_feed_url, {:ssl_verify_peer => false}
 		end
 
 		def load_configuration(file_path)
