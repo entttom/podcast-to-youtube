@@ -7,6 +7,9 @@ require 'rubygems'
 require 'json'
 require 'fastimage'
 require 'mini_magick'
+require 'rmagick'
+
+
 
 class PodcastUploader
 
@@ -33,6 +36,8 @@ class PodcastUploader
 		end
 	end
 
+  
+  
 	def upload(podcast_feed_url, video_category_id, privacy = :public)
 		feed = parse_feed podcast_feed_url
 		feed.entries.reverse_each do |entry|
@@ -48,23 +53,41 @@ class PodcastUploader
 				end
 				
 				coverart = download_asset coverart_url
-				size_array = FastImage.size(coverart)
+				$size_array = FastImage.size(coverart)
 				
-				if size_array[0].even == true
-					
+				File.delete(*Dir.glob('*.mkv'))
+
+				
+				if $size_array[0].even? == true
+					$breite_geaendert = $size_array[0]
 				else
-					size_array[0] + 1
+					puts "Die Breite war: #{$size_array[0]}"
+					$breite = $size_array[0]
+					$breite_geaendert = $breite + 1
+					puts "Breite geändert auf:  #{$breite_geaendert}"
 					bearbeitet = true
 				end
-				if size_array[1].even == true
+				if $size_array[1].even? == true
+					$hoehe_geaendert = $size_array[1]
 				else
-					size_array[0] + 1
+					puts "Die Höhe war: #{$size_array[1]}"
+					$size_array[1] + 1
+					$hoehe = $size_array[1]
+					$hoehe_geaendert = $hoehe + 1
+					puts "Höhe geändert auf:  #{$hoehe_geaendert}"
 					bearbeitet = true
 				end
 				
 				if bearbeitet == true
-					image = MiniMagick::Image.new(coverart)
-					image.resize "#{size_array[0]}x#{size_array[1]}"
+					
+
+
+
+					videofile = generate_videofile(audiofile, coverart)
+					video_description = generate_video_description(entry, feed)
+					tags = %w(podcast)
+
+					upload_video(video_title, video_description, video_category_id, privacy, tags, videofile)
 				else
 					videofile = generate_videofile(audiofile, coverart)
 					video_description = generate_video_description(entry, feed)
