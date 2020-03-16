@@ -5,6 +5,8 @@ require 'yt'
 require 'yaml'
 require 'rubygems'
 require 'json'
+require 'fastimage'
+require 'mini_magick'
 
 class PodcastUploader
 
@@ -44,12 +46,31 @@ class PodcastUploader
 					puts "could not find episode specific coverart, using the feed default coverart."
 					coverart_url = feed.itunes_image
 				end
+				
 				coverart = download_asset coverart_url
-				videofile = generate_videofile(audiofile, coverart)
-				video_description = generate_video_description(entry, feed)
-				tags = %w(podcast)
+				size_array = FastImage.size(coverart)
+				
+				if size_array[0].even = true
+					
+				else
+					size_array[0] + 1
+					bearbeitet = true
+				end
+				if size_array[1].even = true
+				else
+					size_array[0] + 1
+					bearbeitet = true
+				end
+				
+				if bearbeitet = true
+					image = MiniMagick::Image.new(coverart)
+					image.resize "#{size_array[0]}x#{size_array[1]}"
+				else
+					videofile = generate_videofile(audiofile, coverart)
+					video_description = generate_video_description(entry, feed)
+					tags = %w(podcast)
 
-				upload_video(video_title, video_description, video_category_id, privacy, tags, videofile)
+					upload_video(video_title, video_description, video_category_id, privacy, tags, videofile)
 			else
 				puts "video #{video_title} already exists on Youtube. Skipping."
 			end
