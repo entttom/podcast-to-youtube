@@ -71,6 +71,7 @@ class PodcastUploader
 					tags = %w(podcast)
 
 					upload_video(video_title, video_description, video_category_id, privacy, tags, videofile)
+				end
 			else
 				puts "video #{video_title} already exists on Youtube. Skipping."
 			end
