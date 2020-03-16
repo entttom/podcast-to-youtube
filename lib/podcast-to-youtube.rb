@@ -62,7 +62,7 @@ class PodcastUploader
 					bearbeitet = true
 				end
 				
-				if bearbeitet = true
+				if bearbeitet == true
 					image = MiniMagick::Image.new(coverart)
 					image.resize "#{size_array[0]}x#{size_array[1]}"
 				else
