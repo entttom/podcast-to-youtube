@@ -50,13 +50,13 @@ class PodcastUploader
 				coverart = download_asset coverart_url
 				size_array = FastImage.size(coverart)
 				
-				if size_array[0].even = true
+				if size_array[0].even == true
 					
 				else
 					size_array[0] + 1
 					bearbeitet = true
 				end
-				if size_array[1].even = true
+				if size_array[1].even == true
 				else
 					size_array[0] + 1
 					bearbeitet = true
