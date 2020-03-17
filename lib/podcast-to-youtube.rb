@@ -7,9 +7,6 @@ require 'rubygems'
 require 'json'
 require 'fastimage'
 require 'mini_magick'
-require 'rmagick'
-
-
 
 class PodcastUploader
 
@@ -35,6 +32,7 @@ class PodcastUploader
 			save_configuration
 		end
 	end
+	
 
   
   
@@ -56,33 +54,47 @@ class PodcastUploader
 				$size_array = FastImage.size(coverart)
 				
 				File.delete(*Dir.glob('*.mkv'))
-
 				
-				if $size_array[0].even? == true
+				puts $size_array[0]
+				puts $size_array[1]
+				
+				if $size_array[0].even? == true && $size_array[0] <= 1920
 					$breite_geaendert = $size_array[0]
+					puts "Die Breite wurde nicht geändert"
 				else
 					puts "Die Breite war: #{$size_array[0]}"
 					$breite = $size_array[0]
-					$breite_geaendert = $breite + 1
+					$breite_geaendert = $breite - 1
+					if $breite_geaendert >= 1920
+						$breite_geaendert = 1920
+					end	
 					puts "Breite geändert auf:  #{$breite_geaendert}"
 					bearbeitet = true
 				end
-				if $size_array[1].even? == true
+				if $size_array[1].even? == true && $size_array[1] <= 1080
 					$hoehe_geaendert = $size_array[1]
+					puts "Die Hoehe wurde nicht geändert"
 				else
 					puts "Die Höhe war: #{$size_array[1]}"
 					$size_array[1] + 1
 					$hoehe = $size_array[1]
-					$hoehe_geaendert = $hoehe + 1
+					$hoehe_geaendert = $hoehe - 1
+					if $hoehe_geaendert >= 1080
+						$hoehe_geaendert = 1080
+					end
 					puts "Höhe geändert auf:  #{$hoehe_geaendert}"
 					bearbeitet = true
 				end
 				
 				if bearbeitet == true
 					
-
-
-
+					puts "bearbeitet"
+					image = MiniMagick::Image.open(coverart)
+					groese_des_bildes = "#{$breite_geaendert}x#{$hoehe_geaendert}+0+0"
+					puts groese_des_bildes
+					image.crop groese_des_bildes
+					image.write coverart
+					puts image.dimensions
 					videofile = generate_videofile(audiofile, coverart)
 					video_description = generate_video_description(entry, feed)
 					tags = %w(podcast)
