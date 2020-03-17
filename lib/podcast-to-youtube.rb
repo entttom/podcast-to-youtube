@@ -37,6 +37,10 @@ class PodcastUploader
   
   
 	def upload(podcast_feed_url, video_category_id, privacy = :public)
+		
+				File.delete(*Dir.glob('*.mkv'))
+		
+		
 		feed = parse_feed podcast_feed_url
 		feed.entries.reverse_each do |entry|
 			video_title = "#{feed.title} - #{entry.title}"
@@ -53,60 +57,26 @@ class PodcastUploader
 				coverart = download_asset coverart_url
 				$size_array = FastImage.size(coverart)
 				
-				File.delete(*Dir.glob('*.mkv'))
+
 				
 				puts $size_array[0]
 				puts $size_array[1]
 				
-				if $size_array[0].even? == true && $size_array[0] <= 1920
-					$breite_geaendert = $size_array[0]
-					puts "Die Breite wurde nicht geändert"
-				else
-					puts "Die Breite war: #{$size_array[0]}"
-					$breite = $size_array[0]
-					$breite_geaendert = $breite - 1
-					if $breite_geaendert >= 1920
-						$breite_geaendert = 1920
-					end	
-					puts "Breite geändert auf:  #{$breite_geaendert}"
-					bearbeitet = true
-				end
-				if $size_array[1].even? == true && $size_array[1] <= 1080
-					$hoehe_geaendert = $size_array[1]
-					puts "Die Hoehe wurde nicht geändert"
-				else
-					puts "Die Höhe war: #{$size_array[1]}"
-					$size_array[1] + 1
-					$hoehe = $size_array[1]
-					$hoehe_geaendert = $hoehe - 1
-					if $hoehe_geaendert >= 1080
-						$hoehe_geaendert = 1080
-					end
-					puts "Höhe geändert auf:  #{$hoehe_geaendert}"
-					bearbeitet = true
-				end
-				
-				if bearbeitet == true
-					
-					puts "bearbeitet"
+
 					image = MiniMagick::Image.open(coverart)
-					groese_des_bildes = "#{$breite_geaendert}x#{$hoehe_geaendert}+0+0"
+					groese_des_bildes = "1920x1080!"
 					puts groese_des_bildes
-					image.crop groese_des_bildes
+					image.resize groese_des_bildes
 					image.write coverart
+					
 					puts image.dimensions
+
 					videofile = generate_videofile(audiofile, coverart)
 					video_description = generate_video_description(entry, feed)
 					tags = %w(podcast)
 
 					upload_video(video_title, video_description, video_category_id, privacy, tags, videofile)
-				else
-					videofile = generate_videofile(audiofile, coverart)
-					video_description = generate_video_description(entry, feed)
-					tags = %w(podcast)
-
-					upload_video(video_title, video_description, video_category_id, privacy, tags, videofile)
-				end
+			
 			else
 				puts "video #{video_title} already exists on Youtube. Skipping."
 			end
